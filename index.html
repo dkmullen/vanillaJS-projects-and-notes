@@ -4,13 +4,13 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="main.css" />
-    <link rel="stylesheet" href="reset.css" />
+    <link rel="stylesheet" href="styles/main.css" />
+    <link rel="stylesheet" href="styles/reset.css" />
 
     <title>Form Elements</title>
   </head>
   <body>
-    <form action="/action_page.php">
+    <form id="form">
       <div class="container">
         <div class="form-element">
           <label for="firstname">First name</label>
@@ -48,8 +48,7 @@
         <div class="form-element col-2">
           <label for="message">Message</label>
           <textarea id="message" name="message" rows="10" cols="30">
-The cat was playing in the garden.
-        </textarea
+The cat was playing in the garden.</textarea
           >
         </div>
         <div class="button-row">
@@ -60,15 +59,11 @@ The cat was playing in the garden.
           >
             Click Me!
           </button>
-          <button
-            class="primary"
-            type="button"
-            onclick="console.log('Hello World!')"
-          >
-            Click Me!
-          </button>
+          <button class="primary" type="submit">Click Me!</button>
         </div>
       </div>
     </form>
+
+    <script src="js/main.js"></script>
   </body>
 </html>
