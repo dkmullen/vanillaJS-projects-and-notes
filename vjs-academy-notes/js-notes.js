@@ -12,3 +12,17 @@ greeting.textContent += 'Here is something new to be added to the greeting.';
 let form = document.querySelector('#form');
 let data = new FormData(form);
 // Then, can iterate over FormData, w/c returns arrays of [name, value] for form fields
+
+// Array.from - copy an array or get an array from an arrayy-like object like NodeList
+let sandwiches = ['turkey', 'tuna', 'ham', 'pb&j'];
+let sandwichesCopy = Array.from(sandwiches);
+
+// Get all of the button elements
+let btns = document.querySelectorAll('button');
+
+// Create an array of their text content
+let btnsArr = Array.from(btns, function (btn) {
+	return btn.textContent;
+});
+
+

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vanilla JS</title>
+  </head>
+  <body>
+    <button id="click-me" type="button">Click Me</button>
+    <button data-name="click-me-too" type="button">Click Me Too</button>
+
+    <div class="greeting">
+      <style>
+        .wild {
+          color: seagreen;
+        }
+      </style>
+      <p class="wild">Hey now!</p>
+      <p hidden>I'm hidden</p>
+      <p>Not hidden</p>
+    </div>
+
+    <p>
+      <button id="fortune-button">Get Your Fortune</button>
+    </p>
+
+    <div id="fortune" aria-live="polite"></div>
+    <div id="app" aria-live="polite"></div>
+
+    <script>
+      const btn = document.querySelector('#click-me');
+      const btnAlso = document.querySelector('[data-name="click-me-too"]');
+      const greeting = document.querySelector('.greeting');
+
+      const fortuneBtn = document.querySelector('#fortune-button');
+      const fortune = document.querySelector('#fortune');
+
+      const fortunes = [
+        "You better get while it's good!",
+        'Gimme all you got!',
+        'The action IS the juice',
+        'Last m-effer to rob the sawx like this was Jack Clark!',
+        'Witness me!',
+        'Ask again later.',
+        'Better not tell you now.',
+        'Cannot predict now.',
+        'Concentrate and ask again.',
+        "Don't count on it.",
+      ];
+
+      let loading = [
+        'Consulting the spirits...',
+        'Gazing into the depths of the future...',
+        'BRB, jumping into my time machine...',
+        'I see... I see...',
+      ];
+
+      const app = document.querySelector('#app');
+
+      const isActive = setTimeout(() => {
+        app.textContent = 'You have been logged out!';
+      }, 4000);
+
+      document.addEventListener('click', () => {
+        clearTimeout(isActive);
+        app.textContent = 'Still logged in.';
+      });
+
+      btn.addEventListener('click', (e) => {
+        greeting.textContent = 'Heel it now, dig?';
+      });
+      btnAlso.addEventListener('mouseover', (e) => {
+        console.log(e.target);
+      });
+      fortuneBtn.addEventListener('click', getFortune);
+
+      function getFortune() {
+        let loadingInt = getRandomInt(1, loading.length + 1) - 1;
+        fortune.textContent = loading[loadingInt];
+        setTimeout(() => {
+          let fortunesInt = getRandomInt(1, fortunes.length + 1) - 1;
+          fortune.textContent = fortunes[fortunesInt];
+        }, 2000);
+      }
+      function getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
+      }
+    </script>
+  </body>
+</html>

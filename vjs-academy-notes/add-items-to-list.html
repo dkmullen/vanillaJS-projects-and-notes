@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>Randomize</title>
+    <title>Add to list</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <style type="text/css">
@@ -14,7 +14,7 @@
     </style>
   </head>
   <body>
-    <h1>Randomize</h1>
+    <h1>Add to list</h1>
 
     <form id="add-item">
       <label for="item">Add an item to the list...</label>
@@ -24,10 +24,18 @@
 
     <ul id="items"></ul>
 
+    <p>
+      <button id="pick">Pick an Item</button>
+    </p>
+
+    <div id="chosen"></div>
+
     <script>
       // Get the DOM elements
       let form = document.querySelector('#add-item');
       let list = document.querySelector('#items');
+      let pickButton = document.querySelector('#pick');
+      let chosen = document.querySelector('#chosen');
 
       /**
        * Add an item to the list
@@ -36,6 +44,7 @@
       function addToList(item) {
         // Create a list item
         let li = document.createElement('li');
+        li.classList.add('list-item');
         li.textContent = item;
 
         // Add it to the list
@@ -64,8 +73,24 @@
         form.reset();
       }
 
+      function randomIntFromInterval(min, max) {
+        // min and max included
+        return Math.floor(Math.random() * (max - min + 1) + min);
+      }
+
+      // Pick one item from a list on the page, print to a div
+      // Don't need Array.from(listItems) here, but turning an array-like Nodelist
+      // into a real array can be useful
+      function pickOne() {
+        let listItems = document.querySelectorAll('#items li');
+        const rndInt = randomIntFromInterval(0, listItems.length - 1);
+        chosen.innerHTML = listItems[rndInt].textContent;
+      }
+
       // Listen for submit events on the form
       form.addEventListener('submit', addItem);
+
+      pickButton.addEventListener('click', pickOne);
     </script>
   </body>
 </html>
