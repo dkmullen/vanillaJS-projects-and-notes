@@ -15,7 +15,8 @@ body {
 }
 input,
 select,
-textarea {
+textarea,
+summary {
   border: 1px solid lightgray;
   border-radius: 5px;
   background-color: rgb(245, 245, 248);
@@ -88,4 +89,19 @@ button.accent {
     grid-template-columns: 100%;
     grid-template-rows: auto;
   }
+}
+
+#details-wrapper {
+  max-width: 700px;
+  margin: 1rem auto;
+}
+
+summary {
+  height: 40px;
+  min-width: 200px;
+  padding: 10px;
+}
+.content {
+  margin: 10px;
+  margin-left: 20px;
 }

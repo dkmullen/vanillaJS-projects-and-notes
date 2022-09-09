@@ -27,3 +27,29 @@ function togglePw(event) {
     document.querySelector('#visibility_off').hidden = true;
   }
 }
+
+/**
+ * Handle toggle events
+ * @param  {Event} event The Event object
+ */
+function toggleHandler(event) {
+  console.log(event.target.closest('div'));
+  // Only run if accordion is open
+  if (!event.target.hasAttribute('open')) return;
+
+  // Only run on accordions inside our selector
+  let parent = event.target.closest('[data-accordion]');
+  if (!parent) return;
+
+  // Get all open accordions inside parent
+  let opened = parent.querySelectorAll('details[open]');
+  console.log(opened);
+
+  // Close open ones that aren't current accordion
+  for (let accordion of opened) {
+    if (accordion === event.target) continue;
+    accordion.removeAttribute('open');
+  }
+}
+
+document.addEventListener('toggle', toggleHandler, true);
