@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      @media (min-width: 40em) {
+        .gh-grid {
+          display: grid;
+          grid-template-columns: 1fr 3fr;
+          grid-template-rows: 1fr;
+          grid-column-gap: 1em;
+          grid-row-gap: 1em;
+        }
+
+        .gh-avatar {
+          grid-area: 1 / 1 / 2 / 2;
+        }
+        .gh-details {
+          grid-area: 1 / 2 / 2 / 3;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="github">
+      <p><a href="https://github.com/dkmullen">View my GitHub Profile</a></p>
+    </div>
+    <script>
+      let github = document.querySelector('#github');
+
+      // Use github api with fetch
+      fetch('https://api.github.com/users/dkmullen')
+        .then((res) => {
+          if (res.ok) {
+            return res.json();
+          }
+          throw res.status;
+        })
+        .then((data) => {
+          console.log(data);
+          render(data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
+      // Use library to sanitize js from outside
+      function render(data) {
+        github.innerHTML = cleanHTML(`<div class="gh-grid">
+        <div class="gh-avatar">
+          <p><img alt="" src="${data.avatar_url}"></p>
+          <img src=x onerror="alert('XSS Attack')">
+
+        </div>
+        <div class="gh-details">
+          <p>
+            <strong>${data.name}</strong><br>
+            ${data.location}<br>
+            <em><a href="${data.url}">${data.public_repos} public repos</a></em>
+          </p>
+        </div>
+      </div>`);
+      }
+      /*!
+       * Sanitize an HTML string
+       * (c) 2021 Chris Ferdinandi, MIT License, https://gomakethings.com
+       * @param  {String}          str   The HTML string to sanitize
+       * @param  {Boolean}         nodes If true, returns HTML nodes instead of a string
+       * @return {String|NodeList}       The sanitized string or nodes
+       */
+      function cleanHTML(str, nodes) {
+        /**
+         * Convert the string to an HTML document
+         * @return {Node} An HTML document
+         */
+        function stringToHTML() {
+          let parser = new DOMParser();
+          let doc = parser.parseFromString(str, 'text/html');
+          return doc.body || document.createElement('body');
+        }
+
+        /**
+         * Remove <script> elements
+         * @param  {Node} html The HTML
+         */
+        function removeScripts(html) {
+          let scripts = html.querySelectorAll('script');
+          for (let script of scripts) {
+            script.remove();
+          }
+        }
+
+        /**
+         * Check if the attribute is potentially dangerous
+         * @param  {String}  name  The attribute name
+         * @param  {String}  value The attribute value
+         * @return {Boolean}       If true, the attribute is potentially dangerous
+         */
+        function isPossiblyDangerous(name, value) {
+          let val = value.replace(/\s+/g, '').toLowerCase();
+          if (['src', 'href', 'xlink:href'].includes(name)) {
+            if (val.includes('javascript:') || val.includes('data:'))
+              return true;
+          }
+          if (name.startsWith('on')) return true;
+        }
+
+        /**
+         * Remove potentially dangerous attributes from an element
+         * @param  {Node} elem The element
+         */
+        function removeAttributes(elem) {
+          // Loop through each attribute
+          // If it's dangerous, remove it
+          let atts = elem.attributes;
+          for (let { name, value } of atts) {
+            if (!isPossiblyDangerous(name, value)) continue;
+            elem.removeAttribute(name);
+          }
+        }
+
+        /**
+         * Remove dangerous stuff from the HTML document's nodes
+         * @param  {Node} html The HTML document
+         */
+        function clean(html) {
+          let nodes = html.children;
+          for (let node of nodes) {
+            removeAttributes(node);
+            clean(node);
+          }
+        }
+
+        // Convert the string to HTML
+        let html = stringToHTML();
+
+        // Sanitize it
+        removeScripts(html);
+        clean(html);
+
+        // If the user wants HTML nodes back, return them
+        // Otherwise, pass a sanitized string back
+        return nodes ? html.childNodes : html.innerHTML;
+      }
+    </script>
+  </body>
+</html>

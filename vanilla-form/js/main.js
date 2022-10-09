@@ -33,6 +33,8 @@ function togglePw(event) {
  * @param  {Event} event The Event object
  */
 function toggleHandler(event) {
+  // closest gets the closest parent up the DOM tree
+  // Also available: element.parentNode or even h1.parentNode.parentNode
   console.log(event.target.closest('div'));
   // Only run if accordion is open
   if (!event.target.hasAttribute('open')) return;
