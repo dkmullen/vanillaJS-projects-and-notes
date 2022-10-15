@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Repos</title>
+  </head>
+  <body>
+    <h1>Repos!</h1>
+    <div id="details"></div>
+    <div id="app"></div>
+
+    <script>
+      const repoUrl = 'https://api.github.com/users/dkmullen/repos?sort=pushed';
+      const userUrl = 'https://api.github.com/users/dkmullen';
+
+      // With Promise.all, each fetch has to complete successfully
+      Promise.all([fetch(repoUrl), fetch(userUrl)])
+        .then((responses) => {
+          return Promise.all(
+            responses.map((res) => {
+              return res.json();
+            })
+          );
+        })
+        .then((data) => {
+          console.log(data);
+          const [repoInfo, userInfo] = data;
+          const { name, bio, location } = userInfo;
+
+          let myDetails = document.querySelector('#details');
+
+          myDetails.innerHTML = `<h3>${name}</h3><div>${bio} - ${location}</div>`;
+
+          let app = document.querySelector('#app');
+          app.innerHTML =
+            '<ul>' +
+            repoInfo
+              .map((repo) => {
+                // produces an array of list items
+                return '<li>' + repo.name + '</li>';
+              })
+              // join the array into a single string
+              .join('') +
+            '</ul>';
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    </script>
+  </body>
+</html>
