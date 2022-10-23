@@ -29,6 +29,17 @@
           const [repoInfo, userInfo] = data;
           const { name, bio, location } = userInfo;
 
+          // Using array.sort() w/ a callback to sort by name, ASC
+          repoInfo.sort((repo1, repo2) => {
+            if (repo1.name > repo2.name) {
+              // 1 moves the second (smaller) item before the first
+              return 1;
+            }
+            // -1 puts the first item (again, the smaller one) before the second
+            // return 0 leaves the order unchanged
+            return -1;
+          });
+
           let myDetails = document.querySelector('#details');
 
           myDetails.innerHTML = `<h3>${name}</h3><div>${bio} - ${location}</div>`;
