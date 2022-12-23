@@ -9,22 +9,80 @@
   <body>
     <div id="left">
       <div id="logo-wrapper"><img src="images/logo.svg" /></div>
-      <div class="episode active" onclick="makeActive(event)">
+      <div id="1" class="episode active" onclick="makeActive(event)">
         <div class="number">Episode 39</div>
         <div class="title">Tech to Look Forward to in 2022</div>
       </div>
-      <div class="episode" onclick="makeActive(event)">
+      <div id="2" class="episode" onclick="makeActive(event)">
         <div class="number">Episode 38</div>
         <div class="title">2021 Gift Guide</div>
       </div>
-      <div class="episode" onclick="makeActive(event)">
+      <div id="3" class="episode" onclick="makeActive(event)">
         <div class="number">Episode 37</div>
         <div class="title">Building a Course</div>
       </div>
-      <div class="episode" onclick="makeActive(event)">
+      <div id="4" class="episode" onclick="makeActive(event)">
         <div class="number">Episode 36</div>
         <div class="title">SVGs for the Win!</div>
       </div>
+    </div>
+    <div id="main">
+      <article id="art1" class="show">
+        <div class="article-wrapper">
+          <img src="images/cover__episode-39.png" />
+          <div class="article-text">
+            <h4>Tech to Look Forward To</h4>
+            <p>
+              In this episode, Amy and James discuss the future of web
+              development: Astro, Veet, Supabase, SvelteKit, Redwood.js,
+              Blitz.js, GitHub Co-Pilot, Web Assembly, Blockchain, w3, no-code,
+              and low-code.
+            </p>
+          </div>
+        </div>
+      </article>
+      <article id="art2">
+        <div class="article-wrapper">
+          <img src="images/cover__episode-38.png" />
+          <div class="article-text">
+            <h4>Gift Guide</h4>
+            <p>
+              In this episode, Amy and James discuss the future of web
+              development: Astro, Veet, Supabase, SvelteKit, Redwood.js,
+              Blitz.js, GitHub Co-Pilot, Web Assembly, Blockchain, w3, no-code,
+              and low-code.
+            </p>
+          </div>
+        </div>
+      </article>
+      <article id="art3">
+        <div class="article-wrapper">
+          <img src="images/cover__episode-37.png" />
+          <div class="article-text">
+            <h4>Building a Course</h4>
+            <p>
+              In this episode, Amy and James discuss the future of web
+              development: Astro, Veet, Supabase, SvelteKit, Redwood.js,
+              Blitz.js, GitHub Co-Pilot, Web Assembly, Blockchain, w3, no-code,
+              and low-code.
+            </p>
+          </div>
+        </div>
+      </article>
+      <article id="art4">
+        <div class="article-wrapper">
+          <img src="images/cover__episode-36.png" />
+          <div class="article-text">
+            <h4>For the Win</h4>
+            <p>
+              In this episode, Amy and James discuss the future of web
+              development: Astro, Veet, Supabase, SvelteKit, Redwood.js,
+              Blitz.js, GitHub Co-Pilot, Web Assembly, Blockchain, w3, no-code,
+              and low-code.
+            </p>
+          </div>
+        </div>
+      </article>
     </div>
   </body>
 </html>
@@ -38,6 +96,14 @@
     // currentTarget always returns the element where the listener is set, while
     // target returns the element clicked, which often is a child of currentTarget
     e.currentTarget.classList.add('active');
+    const id = e.currentTarget.id;
+    let articles = document.querySelectorAll('article');
+    articles.forEach((item) => {
+      item.classList.remove('show');
+      if (item.id.includes(id)) {
+        item.classList.add('show');
+      }
+    });
   }
 </script>
 
@@ -52,7 +118,7 @@
     color: white;
   }
   #left {
-    position: absolute;
+    position: fixed;
     height: 100vh;
     width: 375px;
     border-right: 3px solid var(--highlight);
@@ -93,5 +159,23 @@
     border-right: 3px solid var(--highlight);
     background-color: black;
     visibility: hidden;
+  }
+  #main {
+    height: 100vh;
+    margin-left: 445px;
+  }
+  article {
+    display: none;
+  }
+  article.show {
+    display: block;
+  }
+  .article-wrapper {
+    width: 80%;
+    max-width: 600px;
+    margin: auto;
+    padding-top: 200px;
+    display: grid;
+    grid-template-columns: 50% 50%;
   }
 </style>
