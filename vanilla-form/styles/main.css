@@ -1,3 +1,9 @@
+:root {
+  --primary: purple;
+  --accent: rgb(234, 199, 2);
+  --off-white: rgb(245, 245, 248);
+  --warning: red;
+}
 body {
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -8,7 +14,7 @@ body {
 .form-element input:focus,
 .form-element select:focus,
 .form-element textarea:focus {
-  outline-color: purple;
+  outline-color: var(--primary);
 }
 .form-element label {
   display: block;
@@ -19,7 +25,7 @@ textarea,
 summary {
   border: 1px solid lightgray;
   border-radius: 5px;
-  background-color: rgb(245, 245, 248);
+  background-color: var(--off-white);
   width: 100%;
   min-width: 300px;
   padding: 0.5rem;
@@ -43,11 +49,11 @@ button:active {
   filter: brightness(1.1);
 }
 button.primary {
-  background-color: purple;
+  background-color: var(--primary);
   color: white;
 }
 button.accent {
-  background-color: rgb(234, 199, 2);
+  background-color: var(--accent);
   color: black;
 }
 
@@ -77,6 +83,11 @@ button.accent {
   grid-template-rows: auto;
 }
 
+.contact-form-container {
+  margin: auto;
+  max-width: 500px;
+}
+
 @media (max-width: 699px) {
   .col-2 {
     grid-column: 1;
@@ -104,4 +115,8 @@ summary {
 .content {
   margin: 10px;
   margin-left: 20px;
+}
+label:has(+ .required-field)::after {
+  content: '*';
+  color: var(--warning);
 }
